@@ -69,28 +69,12 @@ public class DashbordActivity extends AppCompatActivity {
         tensorAudio = audioClassifier.createInputTensorAudio();
     }
 
-    /*
-    public void alarm(String message){
+    public void alarm() {
         // Push notification to user
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("Notification Title")
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        // Create an explicit intent for an Activity in your app
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        builder.setContentIntent(pendingIntent);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(1, builder.build());
         // Send alarm to users contacts
-
     }
-    *
-     */
+
 
     public void startLydgjenkjenning(View view){
         startRecordingButton.setEnabled(false);
