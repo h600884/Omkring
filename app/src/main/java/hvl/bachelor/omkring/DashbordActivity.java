@@ -35,7 +35,7 @@ public class DashbordActivity extends AppCompatActivity {
     protected Button startRecordingButton;
     protected Button stopRecordingButton;
 
-    private String model = "model.tflite";
+    private final String model = "model.tflite";
 
     private AudioRecord audioRecord;
     private TimerTask timerTask;
