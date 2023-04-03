@@ -1,6 +1,11 @@
 package hvl.bachelor.omkring;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioRecord;
 import android.os.Bundle;
 import android.Manifest;
 import android.widget.Button;
@@ -8,6 +13,20 @@ import android.widget.TextView;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import org.tensorflow.lite.support.audio.TensorAudio;
+import org.tensorflow.lite.support.label.Category;
+import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
+import org.tensorflow.lite.task.audio.classifier.Classifications;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DashbordActivity extends AppCompatActivity {
 
@@ -16,6 +35,14 @@ public class DashbordActivity extends AppCompatActivity {
     protected Button startRecordingButton;
     protected Button stopRecordingButton;
 
+    private String model = "model.tflite";
+
+    private AudioRecord audioRecord;
+    private TimerTask timerTask;
+    private AudioClassifier audioClassifier;
+    private TensorAudio tensorAudio;
+
+    float probabilityThreshold = 0.8f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +59,106 @@ public class DashbordActivity extends AppCompatActivity {
         if(checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 0);
         }
+
+        try {
+            audioClassifier = AudioClassifier.createFromFile(this, model);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        tensorAudio = audioClassifier.createInputTensorAudio();
     }
+
+    /*
+    public void alarm(String message){
+        // Push notification to user
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle("Notification Title")
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        // Create an explicit intent for an Activity in your app
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(1, builder.build());
+        // Send alarm to users contacts
+
+    }
+    *
+     */
 
     public void startLydgjenkjenning(View view){
         startRecordingButton.setEnabled(false);
         stopRecordingButton.setEnabled(true);
+
+        TensorAudio.TensorAudioFormat format = audioClassifier.getRequiredTensorAudioFormat();
+        String specs = "Number of channels: " + format.getChannels() + "\n"
+                + "Sample Rate: " + format.getSampleRate();
+        specsTextView.setText(specs);
+
+        // Creating and start recording
+        audioRecord = audioClassifier.createAudioRecord();
+        audioRecord.startRecording();
+
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                // Classifying audio data
+                // val numberOfSamples = tensor.load(record)
+                // val output = classifier.classify(tensor)
+                int numberOfSamples = tensorAudio.load(audioRecord);
+                List<Classifications> output = audioClassifier.classify(tensorAudio);
+
+                // Filtering out classifications with low probability
+                List<Category> finalOutput = new ArrayList<>();
+                for (Classifications classifications : output) {
+                    for (Category category : classifications.getCategories()) {
+                        if (category.getScore() > probabilityThreshold) {
+                            finalOutput.add(category);
+                        }
+                    }
+                }
+
+                if (output.get(1).getCategories().get(1).getScore() > probabilityThreshold) {
+                }
+
+                // Sorting the results
+                Collections.sort(finalOutput, (o1, o2) -> (int) (o1.getScore() - o2.getScore()));
+
+                // Creating a multiline string with the filtered results
+                StringBuilder outputStr = new StringBuilder();
+                for (Category category : finalOutput) {
+                    outputStr.append(category.getLabel())
+                            .append(": ").append(category.getScore()).append("\n");
+                }
+
+                // Updating the UI
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (finalOutput.isEmpty()) {
+                            outputTextView.setText("Could not classify");
+                        } else {
+                            outputTextView.setText(outputStr.toString());
+                        }
+                    }
+                });
+            }
+        };
+
+        new Timer().scheduleAtFixedRate(timerTask, 1, 500);
     }
 
     public void stopLydgjenkjenning(View view){
         startRecordingButton.setEnabled(true);
         stopRecordingButton.setEnabled(false);
+
+        timerTask.cancel();
+        audioRecord.stop();
     }
 }
