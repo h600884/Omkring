@@ -62,7 +62,6 @@
         android:id="@+id/kontakter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="alarm"
         android:text="Kontakter"
         app:layout_constraintBottom_toTopOf="@+id/space4"
         app:layout_constraintEnd_toEndOf="parent"
