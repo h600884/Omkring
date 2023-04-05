@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "152636422860",
+    "project_id": "around-a8722",
+    "storage_bucket": "around-a8722.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152636422860:android:a9269c9604112096bae069",
+        "android_client_info": {
+          "package_name": "hvl.bachelor.omkring"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "152636422860-b9to8ec8m3l4qncf03jk22senjelmie6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK66Bl3du4pW-rAgtQYqTjanz2V-w53d0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "152636422860-b9to8ec8m3l4qncf03jk22senjelmie6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
