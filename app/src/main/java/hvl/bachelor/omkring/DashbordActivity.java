@@ -30,36 +30,48 @@ import java.util.TimerTask;
 
 public class DashbordActivity extends AppCompatActivity {
 
+    // Input & output
     protected TextView outputTextView;
     protected TextView specsTextView;
     protected Button startRecordingButton;
     protected Button stopRecordingButton;
 
+    // Lydklassifiseringsmodell
     private final String model = "model.tflite";
 
+    // Lyd opptak, timer, klassifiserings
     private AudioRecord audioRecord;
     private TimerTask timerTask;
     private AudioClassifier audioClassifier;
     private TensorAudio tensorAudio;
 
+    // Sannsynlighet for at lyden er røykvarsler
     float probabilityThreshold = 0.8f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Set dashbord view
         setContentView(R.layout.activity_dashbord);
 
+        // Definere text output (for testing)
         outputTextView = findViewById(R.id.audio_output_textview);
         specsTextView = findViewById(R.id.audio_specs_textview);
+
+        // Definere input knapper
         startRecordingButton = findViewById(R.id.start_lyd_gjenkjenning);
         stopRecordingButton = findViewById(R.id.stop_lyd_gjenkjenning);
 
+        // Starter uten opptak
         stopRecordingButton.setEnabled(false);
 
+        // Mikrofon tilgang
         if(checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 0);
         }
 
+        // Legge til lydklassifiseringmodellen
         try {
             audioClassifier = AudioClassifier.createFromFile(this, model);
         } catch (IOException e){
@@ -70,11 +82,26 @@ public class DashbordActivity extends AppCompatActivity {
     }
 
     public void alarm() {
-        // Push notification to user
+        // Varsle brukeren
+        varsleBruker();
 
-        // Send alarm to users contacts
+        // Hvis brukeren har kontakter
+        // Varsler kontakter
+        varsleKontakter();
     }
 
+    private void varsleBruker(){
+        // Sender en push notification til brukeren
+        NotificationHelper.sendNotification(
+                this,
+                "Røykvarsler Oppdaget",
+                "Lydgjenkjenningen oppdaget lyden av en røykvarsler");
+    }
+
+    private void varsleKontakter(){
+        // For hver kontakt brukeren har
+            // Send varsel til kontakten om at røykvarsleren har gått av hos brukeren
+    }
 
     public void startLydgjenkjenning(View view){
         startRecordingButton.setEnabled(false);
@@ -108,7 +135,10 @@ public class DashbordActivity extends AppCompatActivity {
                     }
                 }
 
-                if (output.get(1).getCategories().get(1).getScore() > probabilityThreshold) {
+                for (Category category : output.get(1).getCategories()) {
+                    if (category.getLabel().equals("SmokeDetector")  && category.getScore() > probabilityThreshold) {
+                        alarm();
+                    }
                 }
 
                 // Sorting the results
