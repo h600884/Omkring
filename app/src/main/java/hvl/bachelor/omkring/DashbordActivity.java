@@ -15,6 +15,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
 import org.tensorflow.lite.support.audio.TensorAudio;
 import org.tensorflow.lite.support.label.Category;
@@ -71,6 +72,9 @@ public class DashbordActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 0);
         }
 
+        // Notification tilgang
+
+
         // Legge til lydklassifiseringmodellen
         try {
             audioClassifier = AudioClassifier.createFromFile(this, model);
@@ -106,6 +110,10 @@ public class DashbordActivity extends AppCompatActivity {
     public void startLydgjenkjenning(View view){
         startRecordingButton.setEnabled(false);
         stopRecordingButton.setEnabled(true);
+
+        Intent serviceIntent = new Intent(this, LydgjenkjenningForegroundService.class);
+        ContextCompat.startForegroundService(this, serviceIntent);
+
 
         TensorAudio.TensorAudioFormat format = audioClassifier.getRequiredTensorAudioFormat();
         String specs = "Number of channels: " + format.getChannels() + "\n"
@@ -172,7 +180,20 @@ public class DashbordActivity extends AppCompatActivity {
         startRecordingButton.setEnabled(true);
         stopRecordingButton.setEnabled(false);
 
+        Intent serviceIntent = new Intent(this, LydgjenkjenningForegroundService.class);
+        stopService(serviceIntent);
+
         timerTask.cancel();
         audioRecord.stop();
+    }
+
+    public void kontakter(View view){
+        Intent intent = new Intent(this, KontakterActivity.class);
+        startActivity(intent);
+    }
+
+    public void innstillinger(View view){
+        Intent intent = new Intent(this, InnstillingerActivity.class);
+        startActivity(intent);
     }
 }

@@ -45,6 +45,7 @@
         android:id="@+id/glemtPassord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="glemtPassord"
         android:text="Glemt Passord"
         app:layout_constraintBottom_toTopOf="@+id/registrer"
         app:layout_constraintEnd_toEndOf="parent"

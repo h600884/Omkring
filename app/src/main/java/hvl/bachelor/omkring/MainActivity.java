@@ -19,7 +19,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void registrer(View view){
+    public void glemtPassord(View view){
+        Intent intent = new Intent(this, GlemtPassordActivity.class);
+        startActivity(intent);
+    }
 
+    public void registrer(View view){
+        Intent intent = new Intent(this, RegistrerActivity.class);
+        startActivity(intent);
     }
 }
