@@ -43,6 +43,7 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-task-audio:0.4.0'
 
     implementation "androidx.core:core:$core_version"
+    implementation 'com.google.firebase:firebase-auth:21.0.3'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
