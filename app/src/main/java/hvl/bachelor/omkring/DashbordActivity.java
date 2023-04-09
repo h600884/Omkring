@@ -53,7 +53,7 @@ public class DashbordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Set dashbord view
+        // Set dashbord view
         setContentView(R.layout.activity_dashbord);
 
         // Definere text output (for testing)
@@ -172,7 +172,6 @@ public class DashbordActivity extends AppCompatActivity {
                 });
             }
         };
-
         new Timer().scheduleAtFixedRate(timerTask, 1, 500);
     }
 
