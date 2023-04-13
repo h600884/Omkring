@@ -1,7 +1,11 @@
 package hvl.bachelor.omkring;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioRecord;
 import android.os.Bundle;
 import android.Manifest;
 import android.widget.Button;
@@ -9,11 +13,25 @@ import android.widget.TextView;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+
+import org.tensorflow.lite.support.audio.TensorAudio;
+import org.tensorflow.lite.support.label.Category;
+import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
+import org.tensorflow.lite.task.audio.classifier.Classifications;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DashbordActivity extends AppCompatActivity {
 
-    // Input knapper
+    // Input & output
     protected Button startRecordingButton;
     protected Button stopRecordingButton;
 
@@ -28,10 +46,8 @@ public class DashbordActivity extends AppCompatActivity {
         startRecordingButton = findViewById(R.id.start_lyd_gjenkjenning);
         stopRecordingButton = findViewById(R.id.stop_lyd_gjenkjenning);
 
-        // Knappene starter på/av avhengig av om bakgrunnstjenesten er på
-
-        // Geolokasjon tilgang
-
+        // Starter uten opptak
+        stopRecordingButton.setEnabled(false);
 
         // Mikrofon tilgang
         if(checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
@@ -42,14 +58,12 @@ public class DashbordActivity extends AppCompatActivity {
 
     }
 
+
     public void startLydgjenkjenning(View view){
         startRecordingButton.setEnabled(false);
         stopRecordingButton.setEnabled(true);
 
         Intent serviceIntent = new Intent(this, LydgjenkjenningForegroundService.class);
-        // For å sende med knappen
-        // serviceIntent.putExtra("recordingOn", startRecordingButton.isActivated());
-        startForegroundService(serviceIntent);
         ContextCompat.startForegroundService(this, serviceIntent);
     }
 

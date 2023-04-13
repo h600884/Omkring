@@ -91,34 +91,14 @@ public class LydgjenkjenningForegroundService extends Service {
                 int numberOfSamples = tensorAudio.load(audioRecord);
                 List<Classifications> output = audioClassifier.classify(tensorAudio);
 
-                // Filtering out classifications with low probability
-                List<Category> finalOutput = new ArrayList<>();
-                for (Classifications classifications : output) {
-                    for (Category category : classifications.getCategories()) {
-                        if (category.getScore() > probabilityThreshold) {
-                            finalOutput.add(category);
-                        }
-                    }
-                }
-
                 for (Category category : output.get(1).getCategories()) {
                     if (category.getLabel().equals("SmokeDetector")  && category.getScore() > probabilityThreshold) {
                         alarm();
                     }
                 }
-
-                // Sorting the results
-                Collections.sort(finalOutput, (o1, o2) -> (int) (o1.getScore() - o2.getScore()));
-
-                // Creating a multiline string with the filtered results
-                StringBuilder outputStr = new StringBuilder();
-                for (Category category : finalOutput) {
-                    outputStr.append(category.getLabel())
-                            .append(": ").append(category.getScore()).append("\n");
-                }
             }
         };
-        new Timer().scheduleAtFixedRate(timerTask, 1, 500);
+        new Timer().scheduleAtFixedRate(timerTask, 1, 1000);
 
         return super.onStartCommand(intent, flags, startId);
     }
