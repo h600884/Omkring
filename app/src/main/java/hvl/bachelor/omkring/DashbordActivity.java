@@ -32,22 +32,8 @@ import java.util.TimerTask;
 public class DashbordActivity extends AppCompatActivity {
 
     // Input & output
-    protected TextView outputTextView;
-    protected TextView specsTextView;
     protected Button startRecordingButton;
     protected Button stopRecordingButton;
-
-    // Lydklassifiseringsmodell
-    private final String model = "model.tflite";
-
-    // Lyd opptak, timer, klassifiserings
-    private AudioRecord audioRecord;
-    private TimerTask timerTask;
-    private AudioClassifier audioClassifier;
-    private TensorAudio tensorAudio;
-
-    // Sannsynlighet for at lyden er røykvarsler
-    float probabilityThreshold = 0.8f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +41,6 @@ public class DashbordActivity extends AppCompatActivity {
 
         // Set dashbord view
         setContentView(R.layout.activity_dashbord);
-
-        // Definere text output (for testing)
-        outputTextView = findViewById(R.id.audio_output_textview);
-        specsTextView = findViewById(R.id.audio_specs_textview);
 
         // Definere input knapper
         startRecordingButton = findViewById(R.id.start_lyd_gjenkjenning);
@@ -74,38 +56,8 @@ public class DashbordActivity extends AppCompatActivity {
 
         // Notification tilgang
 
-
-        // Legge til lydklassifiseringmodellen
-        try {
-            audioClassifier = AudioClassifier.createFromFile(this, model);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-        tensorAudio = audioClassifier.createInputTensorAudio();
     }
 
-    public void alarm() {
-        // Varsle brukeren
-        varsleBruker();
-
-        // Hvis brukeren har kontakter
-        // Varsler kontakter
-        varsleKontakter();
-    }
-
-    private void varsleBruker(){
-        // Sender en push notification til brukeren
-        NotificationHelper.sendNotification(
-                this,
-                "Røykvarsler Oppdaget",
-                "Lydgjenkjenningen oppdaget lyden av en røykvarsler");
-    }
-
-    private void varsleKontakter(){
-        // For hver kontakt brukeren har
-            // Send varsel til kontakten om at røykvarsleren har gått av hos brukeren
-    }
 
     public void startLydgjenkjenning(View view){
         startRecordingButton.setEnabled(false);
@@ -113,66 +65,6 @@ public class DashbordActivity extends AppCompatActivity {
 
         Intent serviceIntent = new Intent(this, LydgjenkjenningForegroundService.class);
         ContextCompat.startForegroundService(this, serviceIntent);
-
-
-        TensorAudio.TensorAudioFormat format = audioClassifier.getRequiredTensorAudioFormat();
-        String specs = "Number of channels: " + format.getChannels() + "\n"
-                + "Sample Rate: " + format.getSampleRate();
-        specsTextView.setText(specs);
-
-        // Creating and start recording
-        audioRecord = audioClassifier.createAudioRecord();
-        audioRecord.startRecording();
-
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                // Classifying audio data
-                // val numberOfSamples = tensor.load(record)
-                // val output = classifier.classify(tensor)
-                int numberOfSamples = tensorAudio.load(audioRecord);
-                List<Classifications> output = audioClassifier.classify(tensorAudio);
-
-                // Filtering out classifications with low probability
-                List<Category> finalOutput = new ArrayList<>();
-                for (Classifications classifications : output) {
-                    for (Category category : classifications.getCategories()) {
-                        if (category.getScore() > probabilityThreshold) {
-                            finalOutput.add(category);
-                        }
-                    }
-                }
-
-                for (Category category : output.get(1).getCategories()) {
-                    if (category.getLabel().equals("SmokeDetector")  && category.getScore() > probabilityThreshold) {
-                        alarm();
-                    }
-                }
-
-                // Sorting the results
-                Collections.sort(finalOutput, (o1, o2) -> (int) (o1.getScore() - o2.getScore()));
-
-                // Creating a multiline string with the filtered results
-                StringBuilder outputStr = new StringBuilder();
-                for (Category category : finalOutput) {
-                    outputStr.append(category.getLabel())
-                            .append(": ").append(category.getScore()).append("\n");
-                }
-
-                // Updating the UI
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (finalOutput.isEmpty()) {
-                            outputTextView.setText("Could not classify");
-                        } else {
-                            outputTextView.setText(outputStr.toString());
-                        }
-                    }
-                });
-            }
-        };
-        new Timer().scheduleAtFixedRate(timerTask, 1, 500);
     }
 
     public void stopLydgjenkjenning(View view){
@@ -181,9 +73,6 @@ public class DashbordActivity extends AppCompatActivity {
 
         Intent serviceIntent = new Intent(this, LydgjenkjenningForegroundService.class);
         stopService(serviceIntent);
-
-        timerTask.cancel();
-        audioRecord.stop();
     }
 
     public void kontakter(View view){
