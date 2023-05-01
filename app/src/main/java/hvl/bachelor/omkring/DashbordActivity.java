@@ -1,39 +1,24 @@
 package hvl.bachelor.omkring;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.AudioRecord;
 import android.os.Bundle;
 import android.Manifest;
 import android.widget.Button;
-import android.widget.TextView;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+import androidx.appcompat.app.AppCompatActivity;;
 import androidx.core.content.ContextCompat;
-
-import org.tensorflow.lite.support.audio.TensorAudio;
-import org.tensorflow.lite.support.label.Category;
-import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
-import org.tensorflow.lite.task.audio.classifier.Classifications;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class DashbordActivity extends AppCompatActivity {
 
     // Input & output
+    protected Button geolokasjonButton;
+    protected Button testLydgjenkjenningButton;
     protected Button startRecordingButton;
     protected Button stopRecordingButton;
+    protected Button kontakterButton;
+    protected Button innstillingerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +28,12 @@ public class DashbordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashbord);
 
         // Definere input knapper
+        geolokasjonButton = findViewById(R.id.set_geo_lokasjon);
+        testLydgjenkjenningButton = findViewById(R.id.test_Lydgjenkjenning);
         startRecordingButton = findViewById(R.id.start_lyd_gjenkjenning);
         stopRecordingButton = findViewById(R.id.stop_lyd_gjenkjenning);
+        kontakterButton = findViewById(R.id.kontakter);
+        innstillingerButton = findViewById(R.id.innstillinger);
 
         // Starter uten opptak
         stopRecordingButton.setEnabled(false);
@@ -56,8 +45,8 @@ public class DashbordActivity extends AppCompatActivity {
 
         // Notification tilgang
 
-    }
 
+    }
 
     public void startLydgjenkjenning(View view){
         startRecordingButton.setEnabled(false);

@@ -1,19 +1,14 @@
 package hvl.bachelor.omkring;
 
-import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.AudioRecord;
-import android.os.Binder;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 
 import org.tensorflow.lite.support.audio.TensorAudio;
 import org.tensorflow.lite.support.label.Category;
@@ -21,18 +16,9 @@ import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
 import org.tensorflow.lite.task.audio.classifier.Classifications;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
-import android.util.Log;
 
 public class LydgjenkjenningForegroundService extends Service {
 
@@ -45,7 +31,7 @@ public class LydgjenkjenningForegroundService extends Service {
     private TensorAudio tensorAudio;
 
     // Sannsynlighet for at lyden er røykvarsler
-    private final float probabilityThreshold = 0.8f;
+    private final float probabilityThreshold = 0.6f;
 
     @Override
     public void onCreate() {
@@ -56,7 +42,6 @@ public class LydgjenkjenningForegroundService extends Service {
         } catch (IOException e){
             e.printStackTrace();
         }
-
         tensorAudio = audioClassifier.createInputTensorAudio();
     }
 
@@ -98,7 +83,7 @@ public class LydgjenkjenningForegroundService extends Service {
                 }
             }
         };
-        new Timer().scheduleAtFixedRate(timerTask, 1, 1000);
+        new Timer().scheduleAtFixedRate(timerTask, 1, 500);
 
         return super.onStartCommand(intent, flags, startId);
     }
