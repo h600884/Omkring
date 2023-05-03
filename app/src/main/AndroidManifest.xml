@@ -4,8 +4,9 @@
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Omkring"
         tools:targetApi="31">
+        <activity
+            android:name=".TestLydgjenkjenningActivity"
+            android:exported="false"
+            android:label="@string/title_activity_test_lydgjenkjenning"
+            android:theme="@style/Theme.Omkring.NoActionBar" />
         <activity
             android:name=".InnstillingerActivity"
             android:exported="false" />
@@ -40,7 +46,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".LydgjenkjenningForegroundService"></service>
+
+        <service android:name=".LydgjenkjenningForegroundService" />
     </application>
 
 </manifest>

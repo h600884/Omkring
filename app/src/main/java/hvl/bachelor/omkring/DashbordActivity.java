@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat;
 
 public class DashbordActivity extends AppCompatActivity {
 
-    // Input & output
+    // Knapper
     protected Button geolokasjonButton;
     protected Button testLydgjenkjenningButton;
     protected Button startRecordingButton;
@@ -39,12 +39,28 @@ public class DashbordActivity extends AppCompatActivity {
         stopRecordingButton.setEnabled(false);
 
         // Mikrofon tilgang
+        requestMikrofonTilgang();
+
+        // Notification tilgang
+        requestNotificationTilgang();
+    }
+
+    public void setGeolokasjon(View view){
+
+    }
+
+    public void testLydgjenkjenning(View view){
+        Intent intent = new Intent(this, TestLydgjenkjenningActivity.class);
+        startActivity(intent);
+    }
+
+    private void requestMikrofonTilgang(){
         if(checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 0);
         }
+    }
 
-        // Notification tilgang
-
+    private void requestNotificationTilgang(){
 
     }
 
