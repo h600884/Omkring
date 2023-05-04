@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,7 +38,7 @@ public class RegistrerActivity extends AppCompatActivity {
         inputEpost = findViewById(R.id.inputEpost);
         inputPassord = findViewById(R.id.inputPassord);
         inputBekreftPassord = findViewById(R.id.inputBekreftPassord);
-        registrerButton = findViewById(R.id.registrerButton);
+        registrerButton = findViewById(R.id.tilbakestillButton);
 
         progressDialog = new ProgressDialog(this);
 
