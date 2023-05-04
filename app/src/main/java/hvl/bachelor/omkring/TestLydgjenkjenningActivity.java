@@ -34,6 +34,7 @@ import java.util.TimerTask;
         protected TextView specsTextView;
         protected Button startRecordingButton;
         protected Button stopRecordingButton;
+        protected TextView oppdaget;
 
         private String model = "model.tflite";
 
@@ -53,6 +54,7 @@ import java.util.TimerTask;
             specsTextView = findViewById(R.id.audio_specs_textview);
             startRecordingButton = findViewById(R.id.start_lyd_gjenkjenning);
             stopRecordingButton = findViewById(R.id.stop_lyd_gjenkjenning);
+            oppdaget = findViewById(R.id.oppdaget);
 
             stopRecordingButton.setEnabled(false);
 
@@ -95,13 +97,13 @@ import java.util.TimerTask;
                     List<Category> finalOutput = new ArrayList<>();
                     for (Classifications classifications : output) {
                         for (Category category : classifications.getCategories()) {
+                            if (category.getLabel().equals("SmokeDetector")  && category.getScore() > probabilityThreshold) {
+                                oppdaget.setText("Røykvarsler Oppdaget!");
+                            }
                             if (category.getScore() > probabilityThreshold) {
                                 finalOutput.add(category);
                             }
                         }
-                    }
-
-                    if (output.get(1).getCategories().get(1).getScore() > probabilityThreshold) {
                     }
 
                     // Sorting the results

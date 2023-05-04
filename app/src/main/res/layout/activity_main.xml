@@ -7,33 +7,32 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/inputEpostLoggInn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/loggInn"
+        app:layout_constraintBottom_toTopOf="@+id/loggInnButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/inputPassordLoggInn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/loggInn"
+        app:layout_constraintBottom_toTopOf="@+id/loggInnButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/inputEpostLoggInn" />
 
     <Button
-        android:id="@+id/loggInn"
+        android:id="@+id/loggInnButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="loggInn"
         android:text="Logg Inn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +49,7 @@
         app:layout_constraintBottom_toTopOf="@+id/registrer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loggInn" />
+        app:layout_constraintTop_toBottomOf="@+id/loggInnButton" />
 
     <Button
         android:id="@+id/registrer"
@@ -61,6 +60,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loggInn" />
+        app:layout_constraintTop_toBottomOf="@+id/loggInnButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

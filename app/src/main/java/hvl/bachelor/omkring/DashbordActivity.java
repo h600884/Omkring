@@ -1,13 +1,15 @@
 package hvl.bachelor.omkring;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.Manifest;
+import android.provider.Settings;
 import android.widget.Button;
 import android.view.View;
-
-import androidx.appcompat.app.AppCompatActivity;;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 public class DashbordActivity extends AppCompatActivity {
@@ -61,7 +63,26 @@ public class DashbordActivity extends AppCompatActivity {
     }
 
     private void requestNotificationTilgang(){
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
 
+        // Check if the notification permission is granted
+        if (notificationManager != null && notificationManager.areNotificationsEnabled()) {
+            // The notification permission is granted
+            // You can perform your desired actions here
+        } else {
+            // The notification permission is not granted
+            // Request the user to grant the notification permission
+            Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+
+            // Check if there are activities that can handle this intent
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                // Show a message that the notification settings cannot be opened
+                Toast.makeText(this, "Unable to open notification settings", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public void startLydgjenkjenning(View view){
