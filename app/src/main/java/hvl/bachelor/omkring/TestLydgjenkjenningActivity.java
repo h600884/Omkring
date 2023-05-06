@@ -97,9 +97,6 @@ import java.util.TimerTask;
                     List<Category> finalOutput = new ArrayList<>();
                     for (Classifications classifications : output) {
                         for (Category category : classifications.getCategories()) {
-                            if (category.getLabel().equals("SmokeDetector")  && category.getScore() > probabilityThreshold) {
-                                oppdaget.setText("Røykvarsler Oppdaget!");
-                            }
                             if (category.getScore() > probabilityThreshold) {
                                 finalOutput.add(category);
                             }
@@ -124,6 +121,11 @@ import java.util.TimerTask;
                                 outputTextView.setText("Could not classify");
                             } else {
                                 outputTextView.setText(outputStr.toString());
+                                for (Category category : output.get(1).getCategories()) {
+                                    if (category.getLabel().equals("SmokeDetector")  && category.getScore() > probabilityThreshold) {
+                                        oppdaget.setText("Røykvarsler Oppdaget!");
+                                    }
+                                }
                             }
                         }
                     });

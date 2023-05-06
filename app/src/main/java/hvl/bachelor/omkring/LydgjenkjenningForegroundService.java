@@ -4,7 +4,10 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Location;
 import android.media.AudioRecord;
 import android.os.IBinder;
 
@@ -52,7 +55,7 @@ public class LydgjenkjenningForegroundService extends Service {
         NotificationChannel channel = new NotificationChannel(
                 CHANNELID,
                 CHANNELID,
-                NotificationManager.IMPORTANCE_LOW
+                NotificationManager.IMPORTANCE_HIGH
         );
 
         getSystemService(NotificationManager.class).createNotificationChannel(channel);
@@ -67,26 +70,58 @@ public class LydgjenkjenningForegroundService extends Service {
         audioRecord = audioClassifier.createAudioRecord();
         audioRecord.startRecording();
 
+        // Check if the user is at home before executing the timer task
+        float maxDistanceFromHome = 50; // In meters
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                // Classifying audio data
-                // val numberOfSamples = tensor.load(record)
-                // val output = classifier.classify(tensor)
-                int numberOfSamples = tensorAudio.load(audioRecord);
-                List<Classifications> output = audioClassifier.classify(tensorAudio);
+                Location currentLocation = getLastKnownLocation();
+                if (currentLocation != null && brukerErHjemme(currentLocation, maxDistanceFromHome)) {
+                    // Classify audio data if the user is at home
+                    // val numberOfSamples = tensor.load(record)
+                    // val output = classifier.classify(tensor)
+                    int numberOfSamples = tensorAudio.load(audioRecord);
+                    List<Classifications> output = audioClassifier.classify(tensorAudio);
 
-                for (Category category : output.get(1).getCategories()) {
-                    if (category.getLabel().equals("SmokeDetector")  && category.getScore() > probabilityThreshold) {
-                        alarm();
+                    for (Category category : output.get(1).getCategories()) {
+                        if (category.getLabel().equals("SmokeDetector") && category.getScore() > probabilityThreshold) {
+                            alarm();
+                        }
                     }
                 }
             }
         };
         new Timer().scheduleAtFixedRate(timerTask, 1, 500);
 
+
         return super.onStartCommand(intent, flags, startId);
     }
+
+    private Location getLastKnownLocation() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        float latitude = sharedPreferences.getFloat("last_latitude", 0);
+        float longitude = sharedPreferences.getFloat("last_longitude", 0);
+        Location location = new Location("");
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+        return location;
+    }
+
+    private boolean brukerErHjemme(Location currentLocation, float maxDistanceFromHome) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        // Get the last saved location
+        double lastLatitude = sharedPreferences.getFloat("last_latitude", 0);
+        double lastLongitude = sharedPreferences.getFloat("last_longitude", 0);
+        Location homeLocation = new Location("");
+        homeLocation.setLatitude(lastLatitude);
+        homeLocation.setLongitude(lastLongitude);
+
+        // Check if the current location is within the maximum distance from the home location
+        float distance = currentLocation.distanceTo(homeLocation);
+        return distance <= maxDistanceFromHome;
+    }
+
 
     public void alarm() {
         // Varsle brukeren
