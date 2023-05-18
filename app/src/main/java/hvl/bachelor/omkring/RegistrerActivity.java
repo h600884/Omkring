@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegistrerActivity extends AppCompatActivity {
 
@@ -29,6 +31,7 @@ public class RegistrerActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseUser mUser;
+    DatabaseReference mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class RegistrerActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+        mRef = FirebaseDatabase.getInstance().getReference("Users" );
 
         registrerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +79,11 @@ public class RegistrerActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                      if(task.isSuccessful()){
                          progressDialog.dismiss();
+
+                         // Lagre bruker i databasen
+                         String userId = mAuth.getCurrentUser().getUid();
+                         mRef.child(userId).child("email").setValue(epost);
+
                          sendBrukerTilNesteAktivitet();
                          Toast.makeText(RegistrerActivity.this, "Registrering fullført", Toast.LENGTH_SHORT).show();
                      }else {

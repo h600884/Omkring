@@ -1,5 +1,6 @@
 package hvl.bachelor.omkring;
 
+import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -44,6 +45,12 @@ public class DashbordActivity extends AppCompatActivity {
         // Starter uten opptak
         stopRecordingButton.setEnabled(false);
 
+        // Hvis foreground service kjører, endre knappene til på
+        if(isServiceRunningInForeground(this, LydgjenkjenningForegroundService.class)){
+            startRecordingButton.setEnabled(false);
+            stopRecordingButton.setEnabled(true);
+        }
+
         // Mikrofon tilgang
         requestMikrofonTilgang();
 
@@ -52,6 +59,19 @@ public class DashbordActivity extends AppCompatActivity {
 
         // Geolokasjon tilgang
         requestLocationTilgang();
+    }
+
+    public static boolean isServiceRunningInForeground(Context context, Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                if (service.foreground) {
+                    return true;
+                }
+
+            }
+        }
+        return false;
     }
 
     private Location getLastKnownLocation() {

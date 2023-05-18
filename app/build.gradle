@@ -46,7 +46,13 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-task-audio:0.4.0'
 
     implementation "androidx.core:core:$core_version"
-    implementation 'com.google.firebase:firebase-auth:21.0.3'
+
+    implementation 'com.google.firebase:firebase-auth:22.0.0'
+    implementation 'com.google.firebase:firebase-storage:20.2.0'
+    implementation 'com.google.firebase:firebase-database:20.2.1'
+
+    implementation 'com.firebaseui:firebase-ui-database:8.0.2'
+
     implementation 'androidx.navigation:navigation-fragment:2.4.1'
     implementation 'androidx.navigation:navigation-ui:2.4.1'
 
