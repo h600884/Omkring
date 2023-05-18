@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.auth.AuthResult;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class RegistrerActivity extends AppCompatActivity {
 
@@ -83,6 +85,15 @@ public class RegistrerActivity extends AppCompatActivity {
                          // Lagre bruker i databasen
                          String userId = mAuth.getCurrentUser().getUid();
                          mRef.child(userId).child("email").setValue(epost);
+
+                         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
+                             @Override
+                             public void onSuccess(String deviceToken) {
+                                 // Update the device token in the Realtime Database
+                                 mRef.child(userId).child("deviceToken").setValue(deviceToken);
+                             }
+                         });
+
 
                          sendBrukerTilNesteAktivitet();
                          Toast.makeText(RegistrerActivity.this, "Registrering fullført", Toast.LENGTH_SHORT).show();

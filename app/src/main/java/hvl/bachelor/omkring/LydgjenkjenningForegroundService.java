@@ -13,6 +13,11 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.tensorflow.lite.support.audio.TensorAudio;
 import org.tensorflow.lite.support.label.Category;
 import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
@@ -36,6 +41,13 @@ public class LydgjenkjenningForegroundService extends Service {
     // Sannsynlighet for at lyden er røykvarsler
     private final float probabilityThreshold = 0.6f;
 
+    // Firebase
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
+
+    DatabaseReference mUsersRef;
+    DatabaseReference mFriendsRef;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -46,6 +58,13 @@ public class LydgjenkjenningForegroundService extends Service {
             e.printStackTrace();
         }
         tensorAudio = audioClassifier.createInputTensorAudio();
+
+        // Get the current user from Firebase Authentication
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
+        mUsersRef = FirebaseDatabase.getInstance().getReference("Users");
+        mFriendsRef = FirebaseDatabase.getInstance().getReference("Friends");
     }
 
     @Override
@@ -92,7 +111,6 @@ public class LydgjenkjenningForegroundService extends Service {
             }
         };
         new Timer().scheduleAtFixedRate(timerTask, 1, 500);
-
 
         return super.onStartCommand(intent, flags, startId);
     }
