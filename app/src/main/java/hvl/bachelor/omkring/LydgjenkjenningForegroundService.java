@@ -15,8 +15,11 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.tensorflow.lite.support.audio.TensorAudio;
 import org.tensorflow.lite.support.label.Category;
@@ -145,34 +148,64 @@ public class LydgjenkjenningForegroundService extends Service {
 
 
     public void alarm() {
-        // Varsle brukeren
-        varsleBruker();
-
-        // Hvis brukeren har kontakter
         // Varsler kontakter
         varsleKontakter();
     }
 
-    private void varsleBruker(){
-        // Sender en push notification til brukeren
-        NotificationHelper.sendNotification(
-                this,
-                "Røykvarsler Oppdaget",
-                "Lydgjenkjenningen oppdaget lyden av en røykvarsler");
-    }
-
     private void varsleKontakter(){
 
-        String brukerEpost;
-        List<String> kontakterToken;
+        String userId = mAuth.getCurrentUser().getUid();
+        mFriendsRef.child(userId).get();
 
-        NotificationHelper.sendNotification(this, "test","test");
+
+        String brukerEpost;
+        List<String> kontakterId;
+
+        NotificationHelper.sendNotification(this, "Røykvarsler Oppdaget","Sender varsel til kontakter");
         // For hver kontakt brukeren har
-        FCMSend.sendNotification(this,
-                "fC_yquhiTzKqAbAxEUwPjj:APA91bHKQna9leNlbr47EpsrhBFiufZUrmxmKo9QgHyvQqP4eCbLJbyusoyApTINqQyLRoik_KMeQ4YZq3vYb0fuKMvIHL3DQOLmAU6CfFpVz_bG2ha2GdgRaIGO-iUb_Do8FDR94I8W",
-                "test",
-                "test");
         // Send varsel til kontakten om at røykvarsleren har gått av hos brukeren
+
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String currentUserId = currentUser.getUid();
+            DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("Friends").child(currentUserId);
+
+            friendsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot friendSnapshot : dataSnapshot.getChildren()) {
+                        String friendId = friendSnapshot.getKey();
+                        // Process friendId as needed (e.g., store in a list or perform further operations)
+                        System.out.println("Friend ID: " + friendId);
+                        fetchDeviceToken(LydgjenkjenningForegroundService.this, friendId);
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Handle database error
+                }
+            });
+        }
+    }
+
+    public static void fetchDeviceToken(Context context, String userId) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String deviceToken = dataSnapshot.child("deviceToken").getValue(String.class);
+                // Process deviceToken as needed
+                FCMSend.sendNotification(context, deviceToken, "Røykvarsler Oppdaget", "Røykvarsler oppdaget hos " + userId);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle database error
+            }
+        });
     }
 
     @Override
