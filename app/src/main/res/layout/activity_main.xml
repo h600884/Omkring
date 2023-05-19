@@ -1,65 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     android:layout_height="match_parent"
+    android:padding="15dp"
     tools:context=".MainActivity">
+
+    <TextView
+        android:text="@string/omkring"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
+
 
     <EditText
         android:id="@+id/inputEpostLoggInn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:autofillHints="emailAddress"
+        android:hint="Email"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/loggInnButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:minHeight="48dp"
+        tools:ignore="VisualLintTextFieldSize"
+        android:drawableEnd="@drawable/email_icon"
+        android:padding="15dp"
+        android:layout_margin="10dp" />
 
     <EditText
         android:id="@+id/inputPassordLoggInn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="password"
+        android:hint="@string/passord"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        tools:ignore="VisualLintTextFieldSize"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:drawableEnd="@drawable/eye_icon" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/loggInnButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputEpostLoggInn" />
+        android:layout_gravity="end"
+        android:text="@string/tilbakestill_passord"
+        android:onClick="glemtPassord"
+        android:textColor="#C0C0C0"/>
+
 
     <Button
         android:id="@+id/loggInnButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="25dp"
+        android:backgroundTint="#F15E22"
+        android:text="@string/logg_inn"
+        android:textColor="#FFFFFF"
+        tools:ignore="VisualLintButtonSize"/>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logg Inn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginBottom="25dp"
+        android:text="@string/eller"
+        android:textColor="#C0C0C0"/>
 
-    <Button
-        android:id="@+id/glemtPassord"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="glemtPassord"
-        android:text="Glemt Passord"
-        app:layout_constraintBottom_toTopOf="@+id/registrer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loggInnButton" />
+        android:text="@string/ny_bruker"
+        android:textColor="#C0C0C0"/>
 
-    <Button
+    <TextView
         android:id="@+id/registrer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:minHeight="48dp"
         android:onClick="registrer"
-        android:text="Registrer"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loggInnButton" />
+        android:text="@string/registrer_deg_her"
+        android:textColor="#0064FF"
+        android:textStyle="bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

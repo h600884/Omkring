@@ -43,7 +43,7 @@ public class RegistrerActivity extends AppCompatActivity {
         inputEpost = findViewById(R.id.inputEpost);
         inputPassord = findViewById(R.id.inputPassord);
         inputBekreftPassord = findViewById(R.id.inputBekreftPassord);
-        registrerButton = findViewById(R.id.tilbakestillButton);
+        registrerButton = findViewById(R.id.registrerButton);
 
         progressDialog = new ProgressDialog(this);
 

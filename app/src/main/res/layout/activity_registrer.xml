@@ -1,43 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <TextView
+        android:text="@string/registrer_deg"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
         android:id="@+id/inputEpost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:hint="Epost" />
-
+        android:hint="@string/Email"
+        android:layout_margin="10dp"
+        android:maxLines="1"
+        android:autofillHints="emailAddress" />
     <EditText
-        android:id="@+id/inputPassord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/inputEpost"
-        android:layout_margin="16dp"
-        android:hint="Passord"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:id="@+id/inputPassord"
+        android:hint="@string/Passord"
+        android:layout_margin="10dp"
+        android:maxLines="1"
+        android:autofillHints="password" />
 
     <EditText
         android:id="@+id/inputBekreftPassord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/inputPassord"
-        android:layout_margin="16dp"
+        android:layout_margin="10dp"
         android:hint="Bekreft passord"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/tilbakestillButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/registrerButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/inputBekreftPassord"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:text="Registrer"/>
+        android:textStyle="bold"
+        android:text="@string/registrer"
+        android:backgroundTint="#F15E22" />
 
-</RelativeLayout>
+</LinearLayout>

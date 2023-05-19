@@ -9,4 +9,36 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="velkommen_tilbake">Velkommen tilbake</string>
+    <string name="email">email</string>
+    <string name="omkring">Omkring</string>
+    <string name="passord">Passord</string>
+    <string name="tilbakestill_passord">Tilbakestill passord</string>
+    <string name="logg_inn">Logg inn</string>
+    <string name="eller">Eller</string>
+    <string name="ny_bruker">Ny bruker?</string>
+    <string name="registrer_deg_her">Registrer deg her</string>
+    <string name="registrer_deg">Registrer deg</string>
+    <string name="fornavn">Fornavn</string>
+    <string name="etternavn">Etternavn</string>
+    <string name="Email">Email</string>
+    <string name="telefonnummer">Telefonnummer</string>
+    <string name="Passord">Passord</string>
+    <string name="jeg_samtykker_villk_r_og_betingelser">Jeg samtykker villkår og betingelser</string>
+    <string name="registrer">Registrer</string>
+    <string name="har_en_bruker">Har en bruker?</string>
+    <string name="logg_inn_her">Logg inn her</string>
+    <string name="legg_til_kontakter">Legg til kontakter</string>
+    <string name="Kontakter">Kontakter</string>
+    <string name="alle_kontakter">ALLE KONTAKTER</string>
+    <string name="innstillinger">Innstillinger</string>
+    <string name="logg_ut">Logg ut</string>
+    <string name="hjem">Hjem</string>
+    <string name="profilbilde">profilbilde</string>
+    <string name="kari_nordmann">Kari Nordmann</string>
+    <string name="bli_varslet">Bli varslet</string>
+    <string name="menunavigation">menunavigation</string>
+    <string name="geolokasjon">geolokasjon</string>
+    <string name="test_lydgjenkjenning">Test lydgjenkjenning</string>
+    <string name="sirkelikon">sirkelikon</string>
 </resources>
