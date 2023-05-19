@@ -48,6 +48,8 @@ public class LydgjenkjenningForegroundService extends Service {
     DatabaseReference mUsersRef;
     DatabaseReference mFriendsRef;
 
+    private static String serverKey = "AAAAI4nW-sw:APA91bEVuWsOyezzDhEUw03PU2-Wt58Pr_aG7anYdhwEH4I0N63jdLqGV_qKL2Cz2thI1s0ydisnCzixlnTi0Hp6Sepg2EAJLXAAee59pCOx8qkrLX0JcKhJ7k4tqebEeqDOQHghF5Gx";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -65,6 +67,7 @@ public class LydgjenkjenningForegroundService extends Service {
 
         mUsersRef = FirebaseDatabase.getInstance().getReference("Users");
         mFriendsRef = FirebaseDatabase.getInstance().getReference("Friends");
+
     }
 
     @Override
@@ -159,7 +162,16 @@ public class LydgjenkjenningForegroundService extends Service {
     }
 
     private void varsleKontakter(){
+
+        String brukerEpost;
+        List<String> kontakterToken;
+
+        NotificationHelper.sendNotification(this, "test","test");
         // For hver kontakt brukeren har
+        FCMSend.sendNotification(this,
+                "fC_yquhiTzKqAbAxEUwPjj:APA91bHKQna9leNlbr47EpsrhBFiufZUrmxmKo9QgHyvQqP4eCbLJbyusoyApTINqQyLRoik_KMeQ4YZq3vYb0fuKMvIHL3DQOLmAU6CfFpVz_bG2ha2GdgRaIGO-iUb_Do8FDR94I8W",
+                "test",
+                "test");
         // Send varsel til kontakten om at røykvarsleren har gått av hos brukeren
     }
 
