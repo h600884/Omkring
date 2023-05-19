@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/background_xml">
 
-    <TextView
+<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Friend's Email"
+        android:textColor="#FFFFFF"
+        android:text="Legg til kontakt"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp"/>
@@ -19,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginBottom="16dp"
-        android:hint="Friend's Email"
+        android:textColor="#FFFFFF"
+        android:hint="Epost"
         android:imeOptions="actionDone"
         android:inputType="textEmailAddress"
         android:maxLines="1" />
@@ -28,7 +31,8 @@
         android:id="@+id/btnAddFriend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Friend"
+        android:backgroundTint="#F15E22"
+        android:text="Legg Til Kontakt"
         android:layout_gravity="center"/>
 
 </LinearLayout>

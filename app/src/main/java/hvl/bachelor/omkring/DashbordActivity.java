@@ -40,7 +40,6 @@ public class DashbordActivity extends AppCompatActivity {
         startRecordingButton = findViewById(R.id.start_lyd_gjenkjenning);
         stopRecordingButton = findViewById(R.id.stop_lyd_gjenkjenning);
         kontakterButton = findViewById(R.id.kontakter);
-        innstillingerButton = findViewById(R.id.innstillinger);
 
         // Starter uten opptak
         stopRecordingButton.setEnabled(false);

@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InnstillingerActivity">
+    tools:context=".InnstillingerActivity"
+    android:background="@drawable/background_xml">
+
 
     <Button
         android:id="@+id/loggUtButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#F15E22"
         android:text="Logg Ut"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

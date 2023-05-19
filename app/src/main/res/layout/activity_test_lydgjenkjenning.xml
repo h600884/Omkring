@@ -3,12 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background_xml">
+
 
     <Button
         android:id="@+id/start_lyd_gjenkjenning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#F15E22"
         android:onClick="startLydgjenkjenning"
         android:text="Start"
         app:layout_constraintBottom_toTopOf="@+id/stop_lyd_gjenkjenning"
@@ -49,6 +52,7 @@
         android:id="@+id/stop_lyd_gjenkjenning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#F15E22"
         android:onClick="stopLydgjenkjenning"
         android:text="Stop"
         app:layout_constraintBottom_toBottomOf="parent"
