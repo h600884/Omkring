@@ -42,7 +42,7 @@ public class LydgjenkjenningForegroundService extends Service {
     private TensorAudio tensorAudio;
 
     // Sannsynlighet for at lyden er røykvarsler
-    private final float probabilityThreshold = 0.6f;
+    private final float sannsynlighet = 0.6f;
 
     // Firebase
     FirebaseAuth mAuth;
@@ -96,11 +96,14 @@ public class LydgjenkjenningForegroundService extends Service {
         audioRecord.startRecording();
 
         // Check if the user is at home before executing the timer task
-        float maxDistanceFromHome = 50; // In meters
+        float maxDistanceFromHome = 100; // In meters
+
+
         timerTask = new TimerTask() {
             @Override
             public void run() {
                 Location currentLocation = getLastKnownLocation();
+
                 if (currentLocation != null && brukerErHjemme(currentLocation, maxDistanceFromHome)) {
                     // Classify audio data if the user is at home
                     // val numberOfSamples = tensor.load(record)
@@ -109,13 +112,14 @@ public class LydgjenkjenningForegroundService extends Service {
                     List<Classifications> output = audioClassifier.classify(tensorAudio);
 
                     for (Category category : output.get(1).getCategories()) {
-                        if (category.getLabel().equals("SmokeDetector") && category.getScore() > probabilityThreshold) {
+                        if (category.getLabel().equals("SmokeDetector") && category.getScore() > sannsynlighet) {
                             alarm();
                         }
                     }
                 }
             }
         };
+
         new Timer().scheduleAtFixedRate(timerTask, 1, 500);
 
         return super.onStartCommand(intent, flags, startId);
