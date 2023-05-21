@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_xml">
+    android:background="@drawable/img_1">
 
-
-    <Button
-        android:id="@+id/start_lyd_gjenkjenning"
+    <TextView
+        android:id="@+id/trykk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#F15E22"
-        android:onClick="startLydgjenkjenning"
-        android:text="Start"
-        app:layout_constraintBottom_toTopOf="@+id/stop_lyd_gjenkjenning"
+        android:text="Test lydgjenkjenning"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.321" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/start_lyd_gjenkjenning"
+        android:layout_width="118dp"
+        android:layout_height="51dp"
+        android:backgroundTint="#F78142"
+        android:onClick="startLydgjenkjenning"
+        android:text="start"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.463" />
 
     <Space
         android:id="@+id/space"
@@ -35,8 +52,10 @@
         android:text="Output"
         app:layout_constraintBottom_toTopOf="@+id/stop_lyd_gjenkjenning"
         app:layout_constraintEnd_toStartOf="@+id/space"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_lyd_gjenkjenning" />
+        app:layout_constraintTop_toBottomOf="@+id/start_lyd_gjenkjenning"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/audio_specs_textview"
@@ -48,19 +67,22 @@
         app:layout_constraintStart_toEndOf="@+id/space"
         app:layout_constraintTop_toBottomOf="@+id/start_lyd_gjenkjenning" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/stop_lyd_gjenkjenning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#F15E22"
+        android:layout_width="118dp"
+        android:layout_height="51dp"
+        android:backgroundTint="#F78142"
         android:onClick="stopLydgjenkjenning"
-        android:text="Stop"
+        android:text="stop"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.682" />
 
     <TextView
         android:id="@+id/oppdaget"
@@ -69,7 +91,9 @@
         android:text="Røykvarsler ikke oppdaget"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stop_lyd_gjenkjenning" />
+        app:layout_constraintTop_toBottomOf="@+id/stop_lyd_gjenkjenning"
+        app:layout_constraintVertical_bias="0.077" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

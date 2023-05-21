@@ -4,102 +4,153 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_xml">
+    android:background="@drawable/img">
 
-    <ImageView
-        android:id="@+id/innstillinger"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="settings"
-        android:onClick="innstillinger"
-        android:src="@drawable/baseline_settings_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ImageContrastCheck,MissingConstraints,OnClick" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
         android:text="@string/omkring"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/start_lyd_gjenkjenning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-
-    <Button
-        android:id="@+id/kontakter"
-        android:layout_width="220dp"
-        android:layout_height="48dp"
-        android:backgroundTint="#F15E22"
-        android:onClick="kontakter"
-        android:text="@string/Kontakter"
+    <TextView
+        android:id="@+id/innstillinger"
+        android:layout_width="58dp"
+        android:layout_height="15dp"
+        android:text="Innstillinger"
+        android:textColor="@color/black"
+        android:textSize="10dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/set_geo_lokasjon"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.968"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.104"
         tools:ignore="MissingConstraints" />
 
-    <Button
+    <TextView
+        android:id="@+id/trykk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lydgjenkjenning"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.389"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/set_geo_lokasjon"
-        android:layout_width="220dp"
-        android:layout_height="48dp"
+        android:layout_width="277dp"
+        android:layout_height="58dp"
         android:backgroundTint="#F15E22"
         android:onClick="setGeolokasjon"
         android:text="@string/geolokasjon"
+        android:textSize="16dp"
         android:textStyle="bold"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_lyd_gjenkjenning"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.821" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/test_Lydgjenkjenning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="277dp"
+        android:layout_height="58dp"
         android:backgroundTint="#F15E22"
         android:onClick="testLydgjenkjenning"
         android:text="@string/test_lydgjenkjenning"
+        android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/set_geo_lokasjon"
-        tools:ignore="MissingConstraints" />
-    <Space
-        android:id="@+id/space2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.925" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/kontakter"
+        android:layout_width="279dp"
+        android:layout_height="55dp"
+        android:backgroundTint="#F15E22"
+        android:onClick="kontakter"
+        android:text="@string/Kontakter"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.716" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/start_lyd_gjenkjenning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#F15E22"
-
+        android:layout_width="118dp"
+        android:layout_height="51dp"
+        android:backgroundTint="#F78142"
         android:onClick="startLydgjenkjenning"
-        android:text="Start"
-        app:layout_constraintBottom_toTopOf="@+id/space2"
+        android:text="start"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-    <Button
-        android:id="@+id/stop_lyd_gjenkjenning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#F15E22"
-        android:onClick="stopLydgjenkjenning"
-        android:text="Stop"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space2" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.464" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/stop_lyd_gjenkjenning"
+        android:layout_width="118dp"
+        android:layout_height="51dp"
+        android:backgroundTint="#F78142"
+        android:onClick="stopLydgjenkjenning"
+        android:text="stopp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.558" />
+
+    <ImageView
+        android:layout_width="53dp"
+        android:layout_height="49dp"
+        android:onClick="innstillinger"
+        android:src="@drawable/baseline_settings_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.038"
+        app:tint="#B0B0B0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

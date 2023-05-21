@@ -37,8 +37,8 @@ public class KontakterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kontakter);
 
-        inputEpost = findViewById(R.id.etEmail);
-        btnAddFriend = findViewById(R.id.btnAddFriend);
+        inputEpost = findViewById(R.id.inputEpostLeggTil);
+        btnAddFriend = findViewById(R.id.btnLeggTill);
 
         // Get the current user from Firebase Authentication
         mAuth = FirebaseAuth.getInstance();

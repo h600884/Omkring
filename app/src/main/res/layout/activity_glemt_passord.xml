@@ -1,36 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:layout_height="match_parent"
-    android:padding="20dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/img"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
 
     <TextView
-        android:text="@string/tilbakestill_passord"
+        android:id="@+id/Omkring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="60dp"
+        android:text="@string/omkring"
+        android:textColor="#090909"
+        android:textColorHint="#000000"
         android:textSize="25sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textStyle="bold" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:id="@+id/inputEpostTilbakestill"
-        android:hint="@string/Email"
-        android:layout_margin="10dp"
-        android:maxLines="1"
-        android:autofillHints="emailAddress" />
+    <RelativeLayout
+        android:layout_width="356dp"
+        android:layout_height="wrap_content">
 
-    <Button
+        <TextView
+            android:id="@+id/omkring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_alignStart="@id/inputEpostTilbakestill"
+            android:text="@string/tilbakestill_passord"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/inputEpostTilbakestill"
+            android:layout_width="347dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/omkring"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:autofillHints="emailAddress"
+            android:ems="10"
+            android:hint="@string/Email"
+            android:inputType="textEmailAddress"
+            android:maxLines="1" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/tilbakestillButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="@string/registrer"
-        android:backgroundTint="#F15E22" />
+        android:layout_width="352dp"
+        android:layout_height="59dp"
+        android:layout_margin="25dp"
+        android:backgroundTint="#F15E22"
+        android:text="@string/tilbakestill_passord"
+        app:cornerRadius="10dp" />
+
+
 
 </LinearLayout>

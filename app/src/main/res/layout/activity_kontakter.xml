@@ -3,36 +3,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/img"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/background_xml">
+    tools:context=".MainActivity">
 
-<TextView
+
+    <TextView
+        android:id="@+id/Omkring"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:text="Legg til kontakt"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="60dp"
+        android:text="@string/omkring"
+        android:textColor="#090909"
+        android:textColorHint="#000000"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
-        android:textColor="#FFFFFF"
-        android:hint="Epost"
-        android:imeOptions="actionDone"
-        android:inputType="textEmailAddress"
-        android:maxLines="1" />
+    <RelativeLayout
+        android:layout_width="356dp"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btnAddFriend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/omkring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_alignStart="@id/inputEpostLeggTil"
+            android:text="Legg til email"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/inputEpostLeggTil"
+            android:layout_width="347dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/omkring"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:autofillHints="emailAddress"
+            android:ems="10"
+            android:hint="@string/Email"
+            android:inputType="textEmailAddress"
+            android:maxLines="1" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLeggTill"
+        android:layout_width="352dp"
+        android:layout_height="59dp"
+        android:layout_margin="25dp"
         android:backgroundTint="#F15E22"
-        android:text="Legg Til Kontakt"
-        android:layout_gravity="center"/>
+        android:text="+Legg til kontakt"
+        app:cornerRadius="10dp" />
+
 
 </LinearLayout>
