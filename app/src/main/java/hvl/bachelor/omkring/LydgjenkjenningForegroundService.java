@@ -47,11 +47,8 @@ public class LydgjenkjenningForegroundService extends Service {
     // Firebase
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-
     DatabaseReference mUsersRef;
     DatabaseReference mFriendsRef;
-
-    private static String serverKey = "AAAAI4nW-sw:APA91bEVuWsOyezzDhEUw03PU2-Wt58Pr_aG7anYdhwEH4I0N63jdLqGV_qKL2Cz2thI1s0ydisnCzixlnTi0Hp6Sepg2EAJLXAAee59pCOx8qkrLX0JcKhJ7k4tqebEeqDOQHghF5Gx";
 
     @Override
     public void onCreate() {
@@ -64,12 +61,12 @@ public class LydgjenkjenningForegroundService extends Service {
         }
         tensorAudio = audioClassifier.createInputTensorAudio();
 
-        // Get the current user from Firebase Authentication
+        // Hentbrukerdata fra firebase
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
-        mUsersRef = FirebaseDatabase.getInstance().getReference("Users");
-        mFriendsRef = FirebaseDatabase.getInstance().getReference("Friends");
+        mUsersRef = FirebaseDatabase.getInstance().getReference("Brukere");
+        mFriendsRef = FirebaseDatabase.getInstance().getReference("Kontakter");
 
     }
 
@@ -85,8 +82,8 @@ public class LydgjenkjenningForegroundService extends Service {
 
         getSystemService(NotificationManager.class).createNotificationChannel(channel);
         Notification.Builder notification = new Notification.Builder(this, CHANNELID)
-                .setContentText(".")
-                .setContentTitle("Lydgjenkjenning kjører")
+                .setContentText("Lydgjenkjenning kjører i bakgrunnen")
+                .setContentTitle("Lydgjenkjenning aktiv")
                 .setSmallIcon(R.drawable.ic_notification);
 
         startForeground(1001, notification.build());
@@ -95,16 +92,16 @@ public class LydgjenkjenningForegroundService extends Service {
         audioRecord = audioClassifier.createAudioRecord();
         audioRecord.startRecording();
 
-        // Check if the user is at home before executing the timer task
-        float maxDistanceFromHome = 100; // In meters
+        // Avstand bruker kan ha fra sitt hjem
+        float maxAvstandFraHjem = 100; // i meters
 
 
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                Location currentLocation = getLastKnownLocation();
+                Location naaverendeLokasjon = hentLokasjon();
 
-                if (currentLocation != null && brukerErHjemme(currentLocation, maxDistanceFromHome)) {
+                if (naaverendeLokasjon != null && brukerErHjemme(naaverendeLokasjon, maxAvstandFraHjem)) {
                     // Classify audio data if the user is at home
                     // val numberOfSamples = tensor.load(record)
                     // val output = classifier.classify(tensor)
@@ -125,7 +122,7 @@ public class LydgjenkjenningForegroundService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private Location getLastKnownLocation() {
+    private Location hentLokasjon() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         float latitude = sharedPreferences.getFloat("last_latitude", 0);
         float longitude = sharedPreferences.getFloat("last_longitude", 0);
@@ -161,7 +158,6 @@ public class LydgjenkjenningForegroundService extends Service {
         String userId = mAuth.getCurrentUser().getUid();
         mFriendsRef.child(userId).get();
 
-
         String brukerEpost;
         List<String> kontakterId;
 
@@ -173,16 +169,14 @@ public class LydgjenkjenningForegroundService extends Service {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String currentUserId = currentUser.getUid();
-            DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("Friends").child(currentUserId);
+            DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("Kontakter").child(currentUserId);
 
             friendsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot friendSnapshot : dataSnapshot.getChildren()) {
                         String friendId = friendSnapshot.getKey();
-                        // Process friendId as needed (e.g., store in a list or perform further operations)
-                        System.out.println("Friend ID: " + friendId);
-                        fetchDeviceToken(LydgjenkjenningForegroundService.this, friendId);
+                        hentDeviceToken(LydgjenkjenningForegroundService.this, friendId);
 
                     }
                 }
@@ -195,19 +189,20 @@ public class LydgjenkjenningForegroundService extends Service {
         }
     }
 
-    public static void fetchDeviceToken(Context context, String userId) {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+    public static void hentDeviceToken(Context context, String userId) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Brukere").child(userId);
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String deviceToken = dataSnapshot.child("deviceToken").getValue(String.class);
-                // Process deviceToken as needed
+
+                // Sender push varsel til kontakt
                 FCMSend.sendNotification(context, deviceToken, "Røykvarsler Oppdaget", "Røykvarsler oppdaget hos " + userId);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle database error
+
             }
         });
     }

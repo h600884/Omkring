@@ -24,7 +24,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 public class RegistrerActivity extends AppCompatActivity {
 
-    EditText inputEpost, inputPassord, inputBekreftPassord;
+    EditText inputNavn, inputEpost, inputPassord, inputBekreftPassord;
 
     Button registrerButton;
 
@@ -40,6 +40,7 @@ public class RegistrerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrer);
 
+        inputNavn = findViewById(R.id.navn);
         inputEpost = findViewById(R.id.inputEpost);
         inputPassord = findViewById(R.id.inputPassord);
         inputBekreftPassord = findViewById(R.id.inputBekreftPassord);
@@ -49,7 +50,7 @@ public class RegistrerActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        mRef = FirebaseDatabase.getInstance().getReference("Users" );
+        mRef = FirebaseDatabase.getInstance().getReference("Brukere" );
 
         registrerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +61,14 @@ public class RegistrerActivity extends AppCompatActivity {
     }
 
     private void utfoorAuth() {
+        String navn = inputNavn.getText().toString();
         String epost = inputEpost.getText().toString();
         String passord = inputPassord.getText().toString();
         String bekreftPassord = inputBekreftPassord.getText().toString();
 
-        if(!epost.matches(epostPattern)){
+        if(navn.isEmpty()){
+            inputNavn.setError("Skriv inn navn");
+        } else if(!epost.matches(epostPattern)){
             inputEpost.setError("Skriv epost rett!");
         } else if (passord.isEmpty() || passord.length() < 6) {
             inputPassord.setError("Skriv passord rett!");
@@ -85,6 +89,7 @@ public class RegistrerActivity extends AppCompatActivity {
                          // Lagre bruker i databasen
                          String userId = mAuth.getCurrentUser().getUid();
                          mRef.child(userId).child("email").setValue(epost);
+                         mRef.child(userId).child("navn").setValue(navn);
 
                          FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
                              @Override

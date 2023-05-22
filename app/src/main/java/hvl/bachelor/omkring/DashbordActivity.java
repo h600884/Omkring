@@ -25,13 +25,11 @@ public class DashbordActivity extends AppCompatActivity {
     protected Button startRecordingButton;
     protected Button stopRecordingButton;
     protected Button kontakterButton;
-    protected Button innstillingerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set dashbord view
         setContentView(R.layout.activity_dashbord);
 
         // Definere input knapper
@@ -45,7 +43,7 @@ public class DashbordActivity extends AppCompatActivity {
         stopRecordingButton.setEnabled(false);
 
         // Hvis foreground service kjører, endre knappene til på
-        if(isServiceRunningInForeground(this, LydgjenkjenningForegroundService.class)){
+        if(foregroundserviceKjoorer(this, LydgjenkjenningForegroundService.class)){
             startRecordingButton.setEnabled(false);
             stopRecordingButton.setEnabled(true);
         }
@@ -60,7 +58,8 @@ public class DashbordActivity extends AppCompatActivity {
         requestLocationTilgang();
     }
 
-    public static boolean isServiceRunningInForeground(Context context, Class<?> serviceClass) {
+    // Metode som returnerer true om foregroundservicen kjører, false ellers
+    public static boolean foregroundserviceKjoorer(Context context, Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
@@ -73,7 +72,8 @@ public class DashbordActivity extends AppCompatActivity {
         return false;
     }
 
-    private Location getLastKnownLocation() {
+    // Metode som henter brukerens lokasjon
+    private Location hentLokasjon() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         float latitude = sharedPreferences.getFloat("last_latitude", 0);
         float longitude = sharedPreferences.getFloat("last_longitude", 0);
@@ -83,7 +83,8 @@ public class DashbordActivity extends AppCompatActivity {
         return location;
     }
 
-    private void saveCurrentLocation(Location location) {
+    // Metode for å lagre nåværende posisjon
+    private void lagreNåvaerendePosisjon(Location location) {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putFloat("last_latitude", (float) location.getLatitude());
@@ -93,20 +94,23 @@ public class DashbordActivity extends AppCompatActivity {
 
     // Lagrer nåværende posisjon som brukerens "hjem"
     public void setGeolokasjon(View view){
-        saveCurrentLocation(getLastKnownLocation());
+        lagreNåvaerendePosisjon(hentLokasjon());
     }
 
+    // Sende brukeren videre til test lydgjenkjenning aktiviteten
     public void testLydgjenkjenning(View view){
         Intent intent = new Intent(this, TestLydgjenkjenningActivity.class);
         startActivity(intent);
     }
 
+    // spør om tilgang til mikrofonen
     private void requestMikrofonTilgang(){
         if(checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 0);
         }
     }
 
+    // spør om tilgang til å sende varsler
     private void requestNotificationTilgang(){
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
 
@@ -132,44 +136,18 @@ public class DashbordActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
 
-    private void checkLocationPermission() {
+    // spør om tilgang til geolokasjon
+    private void requestLocationTilgang() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            // Location permission has been granted.
-            // Do something with the location.
+            // Tilgang til geolokasjon gitt
         } else {
-            // Location permission has not been granted.
-            // Request permission from the user.
+            // Lokasjontilgang ikke gitt
+            // Spør om tilgang til lokasjon
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_LOCATION);
         }
-    }
-
-    // Override the onRequestPermissionsResult method to handle the user's response to the permission request.
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
-                // If the request is cancelled, the grantResults array is empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission was granted.
-                    // Do something with the location.
-                } else {
-                    // Permission was denied.
-                    // Show an explanation to the user or disable the functionality that depends on this permission.
-                }
-                break;
-            }
-            default: {
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-                break;
-            }
-        }
-    }
-
-    private void requestLocationTilgang(){
-        checkLocationPermission();
     }
 
     public void startLydgjenkjenning(View view){

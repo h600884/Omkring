@@ -29,7 +29,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Update the device token in the Realtime Database
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
-                .child("Users")
+                .child("Brukere")
                 .child(userId);
         userRef.child("deviceToken").setValue(token);
     }

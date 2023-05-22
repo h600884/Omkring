@@ -40,26 +40,26 @@ public class KontakterActivity extends AppCompatActivity {
         inputEpost = findViewById(R.id.inputEpostLeggTil);
         btnAddFriend = findViewById(R.id.btnLeggTill);
 
-        // Get the current user from Firebase Authentication
+        // Hent nåværende bruker fra firebase
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
-        mUsersRef = FirebaseDatabase.getInstance().getReference("Users" );
-        mFriendsRef = FirebaseDatabase.getInstance().getReference("Friends" );
+        mUsersRef = FirebaseDatabase.getInstance().getReference("Brukere" );
+        mFriendsRef = FirebaseDatabase.getInstance().getReference("Kontakter" );
 
         btnAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addFriend();
+                leggTilKontakt();
             }
         });
     }
 
-    private void addFriend() {
+    private void leggTilKontakt() {
         String email = inputEpost.getText().toString().trim();
 
         if (TextUtils.isEmpty(email) || !email.matches(epostPattern)) {
-            Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Bruk en gyldig epostadresse", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -101,7 +101,6 @@ public class KontakterActivity extends AppCompatActivity {
         });
     }
 
-    // Define a callback interface
     interface UserIdCallback {
         void onUserIdReceived(String userId);
     }

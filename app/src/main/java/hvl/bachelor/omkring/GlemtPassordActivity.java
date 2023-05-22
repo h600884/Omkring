@@ -46,10 +46,11 @@ public class GlemtPassordActivity extends AppCompatActivity {
         });
     }
 
+    // Metode for å tilbakestille passordet
     private void tilbakestillPassord() {
         String email = inputEpost.getText().toString().trim();
 
-        // Validate the email input
+        // Validerer eposten med et regulært utrykk
         if (!email.matches(epostPattern)) {
             inputEpost.setError("Ugyldig e-postadresse");
             inputEpost.requestFocus();
@@ -59,7 +60,7 @@ public class GlemtPassordActivity extends AppCompatActivity {
         progressDialog.setMessage("Sender instruksjoner for tilbakestilling av passord...");
         progressDialog.show();
 
-        // Send a password reset email to the user's email address
+        // Sender en epost med forespørsel om å tilbakestille passord
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(task -> {
                     progressDialog.dismiss();

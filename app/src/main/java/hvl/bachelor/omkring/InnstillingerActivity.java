@@ -33,10 +33,10 @@ public class InnstillingerActivity extends AppCompatActivity {
     }
 
     private void loggUt() {
-        // Sign out the user from Firebase Authentication
+        // logger ut en bruker
         mAuth.signOut();
 
-        // Start the MainActivity and clear the back stack
+        // Sender brukeren tilbake til MainActivity
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
