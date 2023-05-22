@@ -99,7 +99,6 @@ public class RegistrerActivity extends AppCompatActivity {
                              }
                          });
 
-
                          sendBrukerTilNesteAktivitet();
                          Toast.makeText(RegistrerActivity.this, "Registrering fullført", Toast.LENGTH_SHORT).show();
                      }else {

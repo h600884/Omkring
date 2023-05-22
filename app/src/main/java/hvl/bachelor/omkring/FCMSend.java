@@ -21,7 +21,6 @@ public class FCMSend {
     private static String BASE_URL = "https://fcm.googleapis.com/fcm/send";
     private static String SERVER_KEY = "key=AAAAI4nW-sw:APA91bEVuWsOyezzDhEUw03PU2-Wt58Pr_aG7anYdhwEH4I0N63jdLqGV_qKL2Cz2thI1s0ydisnCzixlnTi0Hp6Sepg2EAJLXAAee59pCOx8qkrLX0JcKhJ7k4tqebEeqDOQHghF5Gx";
 
-
     // Metode som sender push varsel, ved hjelp av kontaktens device token, tittel, og melding
     public static void sendNotification(Context context, String token, String tittel, String melding){
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

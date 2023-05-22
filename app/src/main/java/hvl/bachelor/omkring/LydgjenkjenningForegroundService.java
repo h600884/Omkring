@@ -42,7 +42,9 @@ public class LydgjenkjenningForegroundService extends Service {
     private TensorAudio tensorAudio;
 
     // Sannsynlighet for at lyden er røykvarsler
-    private final float sannsynlighet = 0.6f;
+    private final float sannsynlighet = 0.7f;
+
+    private String navn;
 
     // Firebase
     FirebaseAuth mAuth;

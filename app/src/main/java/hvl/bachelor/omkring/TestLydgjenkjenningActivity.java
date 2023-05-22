@@ -43,7 +43,7 @@ import java.util.TimerTask;
         private AudioClassifier audioClassifier;
         private TensorAudio tensorAudio;
 
-        float probabilityThreshold = 0.8f;
+        float sannsynlighet = 0.8f;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +97,7 @@ import java.util.TimerTask;
                     List<Category> finalOutput = new ArrayList<>();
                     for (Classifications classifications : output) {
                         for (Category category : classifications.getCategories()) {
-                            if (category.getScore() > probabilityThreshold) {
+                            if (category.getScore() > sannsynlighet) {
                                 finalOutput.add(category);
                             }
                         }
@@ -122,7 +122,7 @@ import java.util.TimerTask;
                             } else {
                                 outputTextView.setText(outputStr.toString());
                                 for (Category category : output.get(1).getCategories()) {
-                                    if (category.getLabel().equals("SmokeDetector")  && category.getScore() > probabilityThreshold) {
+                                    if (category.getLabel().equals("SmokeDetector")  && category.getScore() > sannsynlighet) {
                                         oppdaget.setText("Røykvarsler Oppdaget!");
                                     }
                                 }
